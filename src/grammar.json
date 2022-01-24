@@ -51,6 +51,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "template"
+        },
+        {
+          "type": "SYMBOL",
           "name": "text"
         },
         {
@@ -442,7 +446,231 @@
     },
     "text": {
       "type": "PATTERN",
-      "value": "[^<>&\\s]([^<>&]*[^<>&\\s])?"
+      "value": "[^<>{}&\\s]([^<>{}&]*[^<>{}&\\s])?"
+    },
+    "template": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "template_directive"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "template_output_directive"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "template_comment_directive"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "template_graphql_directive"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "templating_liquid_comment"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "templating_liquid_block"
+        }
+      ]
+    },
+    "template_code": {
+      "type": "REPEAT1",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "PATTERN",
+            "value": "[^%=_-]+|[%=_-]"
+          },
+          {
+            "type": "STRING",
+            "value": "%%>"
+          }
+        ]
+      }
+    },
+    "template_content": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "REPEAT1",
+        "content": {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "PATTERN",
+              "value": "[^<]+|<"
+            },
+            {
+              "type": "STRING",
+              "value": "<%%"
+            }
+          ]
+        }
+      }
+    },
+    "template_directive": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "<%"
+            },
+            {
+              "type": "STRING",
+              "value": "<%_"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "template_code"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "%>"
+            },
+            {
+              "type": "STRING",
+              "value": "-%>"
+            },
+            {
+              "type": "STRING",
+              "value": "_%>"
+            }
+          ]
+        }
+      ]
+    },
+    "template_output_directive": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "<%="
+            },
+            {
+              "type": "STRING",
+              "value": "<%-"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "template_code"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "%>"
+            },
+            {
+              "type": "STRING",
+              "value": "-%>"
+            },
+            {
+              "type": "STRING",
+              "value": "=%>"
+            }
+          ]
+        }
+      ]
+    },
+    "template_comment_directive": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "<%#"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "template_code"
+              },
+              "named": true,
+              "value": "comment"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "%>"
+        }
+      ]
+    },
+    "template_graphql_directive": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "<%graphql"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "template_code"
+        },
+        {
+          "type": "STRING",
+          "value": "%>"
+        }
+      ]
+    },
+    "templating_liquid_comment": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "{#"
+        },
+        {
+          "type": "PATTERN",
+          "value": "[^%#{}]+"
+        },
+        {
+          "type": "STRING",
+          "value": "#}"
+        }
+      ]
+    },
+    "templating_liquid_block": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "{%"
+        },
+        {
+          "type": "PATTERN",
+          "value": "[^%#{}]+"
+        },
+        {
+          "type": "STRING",
+          "value": "%}"
+        }
+      ]
     }
   },
   "extras": [
@@ -455,7 +683,16 @@
       "value": "\\s+"
     }
   ],
-  "conflicts": [],
+  "conflicts": [
+    [
+      "_node",
+      "element"
+    ],
+    [
+      "template",
+      "text"
+    ]
+  ],
   "precedences": [],
   "externals": [
     {

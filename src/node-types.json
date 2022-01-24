@@ -23,6 +23,11 @@
     }
   },
   {
+    "type": "comment",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "doctype",
     "named": true,
     "fields": {}
@@ -69,6 +74,10 @@
         },
         {
           "type": "style_element",
+          "named": true
+        },
+        {
+          "type": "template",
           "named": true
         },
         {
@@ -138,6 +147,10 @@
         },
         {
           "type": "style_element",
+          "named": true
+        },
+        {
+          "type": "template",
           "named": true
         },
         {
@@ -247,11 +260,141 @@
     }
   },
   {
+    "type": "template",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "template_comment_directive",
+          "named": true
+        },
+        {
+          "type": "template_directive",
+          "named": true
+        },
+        {
+          "type": "template_graphql_directive",
+          "named": true
+        },
+        {
+          "type": "template_output_directive",
+          "named": true
+        },
+        {
+          "type": "templating_liquid_block",
+          "named": true
+        },
+        {
+          "type": "templating_liquid_comment",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "template_code",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "template_comment_directive",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "comment",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "template_directive",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "template_code",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "template_graphql_directive",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "template_code",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "template_output_directive",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "template_code",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "templating_liquid_block",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "templating_liquid_comment",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "\"",
     "named": false
   },
   {
+    "type": "#}",
+    "named": false
+  },
+  {
+    "type": "%%>",
+    "named": false
+  },
+  {
+    "type": "%>",
+    "named": false
+  },
+  {
+    "type": "%}",
+    "named": false
+  },
+  {
     "type": "'",
+    "named": false
+  },
+  {
+    "type": "-%>",
     "named": false
   },
   {
@@ -267,6 +410,34 @@
     "named": false
   },
   {
+    "type": "<%",
+    "named": false
+  },
+  {
+    "type": "<%#",
+    "named": false
+  },
+  {
+    "type": "<%%",
+    "named": false
+  },
+  {
+    "type": "<%-",
+    "named": false
+  },
+  {
+    "type": "<%=",
+    "named": false
+  },
+  {
+    "type": "<%_",
+    "named": false
+  },
+  {
+    "type": "<%graphql",
+    "named": false
+  },
+  {
     "type": "</",
     "named": false
   },
@@ -275,7 +446,15 @@
     "named": false
   },
   {
+    "type": "=%>",
+    "named": false
+  },
+  {
     "type": ">",
+    "named": false
+  },
+  {
+    "type": "_%>",
     "named": false
   },
   {
@@ -284,10 +463,6 @@
   },
   {
     "type": "attribute_value",
-    "named": true
-  },
-  {
-    "type": "comment",
     "named": true
   },
   {
@@ -313,5 +488,13 @@
   {
     "type": "text",
     "named": true
+  },
+  {
+    "type": "{#",
+    "named": false
+  },
+  {
+    "type": "{%",
+    "named": false
   }
 ]

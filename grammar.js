@@ -30,6 +30,11 @@ module.exports = grammar({
     $.comment,
   ],
 
+  conflicts: $ => [
+    [$._node, $.element],
+    [$.template, $.text],
+  ],
+
   rules: {
     fragment: $ => repeat($._node),
 
@@ -45,6 +50,7 @@ module.exports = grammar({
     _node: $ => choice(
       $.doctype,
       $.entity,
+      $.template,
       $.text,
       $.element,
       $.script_element,
@@ -138,6 +144,42 @@ module.exports = grammar({
       seq('"', optional(alias(/[^"]+/, $.attribute_value)), '"'),
     ),
 
-    text: _ => /[^<>&\s]([^<>&]*[^<>&\s])?/,
+    text: _ => /[^<>{}&\s]([^<>{}&]*[^<>{}&\s])?/,
+
+    template: $ => choice(
+      $.template_directive,
+      $.template_output_directive,
+      $.template_comment_directive,
+      $.template_graphql_directive,
+      $.templating_liquid_comment,
+      $.templating_liquid_block,
+    ),
+
+    template_code: _ => repeat1(choice(/[^%=_-]+|[%=_-]/, '%%>')),
+
+    template_content: _ => prec.right(repeat1(choice(/[^<]+|</, '<%%'))),
+
+    template_directive: $ => seq(
+      choice('<%', '<%_'),
+      $.template_code,
+      choice('%>', '-%>', '_%>'),
+    ),
+
+    template_output_directive: $ => seq(
+      choice('<%=', '<%-'),
+      $.template_code,
+      choice('%>', '-%>', '=%>'),
+    ),
+
+    template_comment_directive: $ => seq(
+      '<%#',
+      optional(alias($.template_code, $.comment)),
+      '%>',
+    ),
+
+    template_graphql_directive: $ => seq('<%graphql', $.template_code, '%>'),
+
+    templating_liquid_comment: _ => seq('{#', /[^%#{}]+/, '#}'),
+    templating_liquid_block: _ => seq('{%', /[^%#{}]+/, '%}'),
   },
 });

@@ -363,3 +363,87 @@ Multiple entities in tag contents
     (entity)
     (text)
     (end_tag (tag_name))))
+
+==========================================
+Templates / Comment Or Block TWIG / Liquid
+==========================================
+{# <script>
+ this is a comment
+#}
+{# <script> </div> #}
+<div>
+{% foo %}
+  {% foo %}
+</div>
+  {% endblock %}
+{% endblock %}
+
+---
+
+(fragment
+  (template
+    (templating_liquid_comment))
+  (template
+    (templating_liquid_comment))
+  (element
+    (start_tag
+      (tag_name))
+    (template
+      (templating_liquid_block))
+    (template
+      (templating_liquid_block))
+    (end_tag
+      (tag_name)))
+    (template
+      (templating_liquid_block))
+    (template
+      (templating_liquid_block)))
+
+==================================
+Templates / Comment Or Block ERB
+==================================
+<%= <script> -%>
+<%#= <script> -%>
+
+<% for i in [] %>
+  <% for j in [] %>
+    <div>
+      <span><%= i %>test</span>
+    </div>
+  <% end %>
+<% end %>
+---
+
+(fragment
+  (template
+    (template_output_directive
+      (template_code)))
+  (template
+    (template_comment_directive
+      (comment)))
+  (template
+    (template_directive
+      (template_code)))
+  (template
+    (template_directive
+      (template_code)))
+  (element
+    (start_tag
+      (tag_name))
+    (element
+      (start_tag
+        (tag_name))
+      (template
+        (template_output_directive
+          (template_code)))
+      (text)
+      (end_tag
+        (tag_name)))
+    (end_tag
+      (tag_name)))
+  (template
+    (template_directive
+      (template_code)))
+  (template
+    (template_directive
+      (template_code))))
